@@ -1000,9 +1000,9 @@ op_listvhost() {
             serveraliases="$(echo $serveraliases | sed 's/ \+/,/g')"
             userid="$(awk '/^[[:space:]]*AssignUserID.*/ { print $3 }' "$configfile" | head -n 1)"
             if [ -x /usr/bin/quota ]; then
-                size=$(quota --no-wrap --human-readable "$userid" |grep /home |awk '{print $2}')
-                quota_soft=$(quota --no-wrap --human-readable "$userid" |grep /home |awk '{print $3}')
-                quota_hard=$(quota --no-wrap --human-readable "$userid" |grep /home |awk '{print $4}')
+                size=$(quota --no-wrap --human-readable --show-mntpoint --hide-device "$userid" |grep /home |awk '{print $2}')
+                quota_soft=$(quota --no-wrap --human-readable --show-mntpoint --hide-device "$userid" |grep /home |awk '{print $3}')
+                quota_hard=$(quota --no-wrap --human-readable --show-mntpoint --hide-device "$userid" |grep /home |awk '{print $4}')
             fi
             phpversion=$(perl -lne 'print $1 if (m!^\s+SetHandler proxy:unix:/home/.*/php-fpm(\d{2})\.sock!)' "$configfile" | head -n 1)
             if [ -e /etc/apache2/sites-enabled/"${userid}".conf ]; then

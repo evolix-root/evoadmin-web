@@ -23,6 +23,7 @@ The **patch** part changes is incremented if multiple releases happen the same m
 ### Fixed
 
 * Fix deletion of SSH permissions
+* Quota system 
 
 ### Removed
 

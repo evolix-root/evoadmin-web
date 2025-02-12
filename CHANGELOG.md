@@ -23,6 +23,7 @@ The **patch** part changes is incremented if multiple releases happen the same m
 ### Fixed
 
 * Fix deletion of SSH permissions
+* Fix ssl config (in /etc/apache2/ssl) not deleted on account deletion
 * Quota system 
 
 ### Removed

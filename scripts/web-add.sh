@@ -811,6 +811,10 @@ op_del() {
         rm -r /etc/letsencrypt/"$login"
     fi
 
+    if [ -f /etc/apache2/ssl/"$login".conf ]; then
+        rm /etc/apache2/ssl/"$login".conf
+    fi
+
     set +x
 
     if [ -n "$dbname" ]; then

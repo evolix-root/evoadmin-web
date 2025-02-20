@@ -13,6 +13,8 @@ The **patch** part changes is incremented if multiple releases happen the same m
 ### Added
 
 * web-add.sh: Add new command list-php-versions
+* web-add.sh: Add new command enable-vhost
+* web-add.sh: Add new command disable-vhost
 * Support for PHP 8.3 and PHP 8.4
 
 ### Changed
@@ -24,6 +26,7 @@ The **patch** part changes is incremented if multiple releases happen the same m
 
 * Fix deletion of SSH permissions
 * Fix ssl config (in /etc/apache2/ssl) not deleted on account deletion
+* FTP account listing broken when the size file doesn't exist
 * Quota system 
 
 ### Removed

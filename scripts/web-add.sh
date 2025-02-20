@@ -877,6 +877,12 @@ arg_processing() {
         del)
             op_del "$@"
             ;;
+        enable-vhost)
+            op_enable_vhost "$@"
+            ;;
+        disable-vhost)
+            op_disable_vhost "$@"
+            ;;
         list-vhost)
             op_listvhost "$@"
             ;;
@@ -1420,6 +1426,51 @@ op_list_php_versions(){
 # Return web-add.sh version
 op_version(){
     echo "$VERSION"
+}
+
+op_enable_vhost() {
+    vhost_name=$1
+
+    if [[ -e "/etc/apache2/sites-enabled/${vhost_name}.conf" ]]; then
+        echo "This vhost is already active... Exiting"
+        return 1
+    fi
+
+    if [[ ! -e "/etc/apache2/sites-available/${vhost_name}.conf" ]]; then
+        echo "This vhost does not exist.. Exiting"
+        return 1
+    fi
+
+    a2ensite "${vhost_name}.conf"
+
+    echo "Validating apache2 configuration & reloading"
+
+    set +e
+    apache2ctl configtest 2>/dev/null
+    rc=$?
+    set -e
+
+    if [[ $rc -ne 0 ]]; then
+        # Config seems invalid, we roll back our change
+        echo "Apache configuration seems invalid after enabling the vhost ${vhost_name} -- Rolling back our change and exiting"
+        a2dissite "${vhost_name}.conf"
+        return 1
+    else
+        systemctl reload apache2.service
+    fi
+}
+
+op_disable_vhost() {
+    vhost_name=$1
+
+    if [[ ! -e "/etc/apache2/sites-enabled/${vhost_name}.conf" ]]; then
+        echo "This vhost isn't active... Exiting"
+        return 1
+    fi
+
+    echo "Validating apache2 configuration & reloading"
+    apache2ctl configtest 2>/dev/null
+    systemctl reload apache2.service
 }
 
 # Point d'entrée

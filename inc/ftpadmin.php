@@ -197,8 +197,8 @@ if ($action=="add") {
             $table[$num_line]['path'] = str_replace('//', '/', $rel_path);
 
             if ($infos[3]>0) {
-              $size_total += $infos[3];
-              $table[$num_line]['size'] = formatBytes($infos[3]);
+              $size_total += intval($infos[3]);
+              $table[$num_line]['size'] = formatBytes(intval($infos[3]));
             } else {
           $table[$num_line]['size'] = 0;
             }
